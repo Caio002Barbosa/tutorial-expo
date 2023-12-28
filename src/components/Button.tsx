@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 type ButtonProps = {
 	label: string;
 	theme?: 'primary';
-	onPress?: () => void;
+	onPress: () => void;
 };
 
 export default function Button({ label, theme, onPress }: ButtonProps) {
@@ -35,7 +35,7 @@ export default function Button({ label, theme, onPress }: ButtonProps) {
 
 	return (
 		<View style={styles.buttonContainer}>
-			<Pressable style={styles.button}>
+			<Pressable style={styles.button} onPress={onPress}>
 				<Text style={styles.buttonLabel}>{label}</Text>
 			</Pressable>
 		</View>
