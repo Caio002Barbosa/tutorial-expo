@@ -7,13 +7,21 @@ import IconButton from '@components/IconButton';
 import ImageViewer from '@components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { captureRef } from 'react-native-view-shot';
+
+import * as MediaLibrary from 'expo-media-library';
 
 const PlaceholderImage = require('@assets/images/background-image.png');
 
 export default function App() {
+	const [status, requestPermission] = MediaLibrary.usePermissions();
+	if (status === null) requestPermission();
+
+	const imageRef = useRef<any>();
+
 	const [selectedImage, setSelectedImage] = useState<string | undefined>();
 	const [showAppOptions, setShowAppOptions] = useState(false);
 	const [isModalVisible, setIsModalVisible] = useState(false);
@@ -33,12 +41,26 @@ export default function App() {
 	const onReset = () => setShowAppOptions(false);
 	const onAddSticker = () => setIsModalVisible(true);
 	const onModalClose = () => setIsModalVisible(false);
-	const onSaveImageAsync = async () => alert('Save image');
+	const onSaveImageAsync = async () => {
+		try {
+			const localUri = await captureRef(imageRef, {
+				height: 440,
+				quality: 1,
+			});
+
+			await MediaLibrary.saveToLibraryAsync(localUri);
+			if (localUri) {
+				alert('Saved!');
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	};
 
 	return (
 		<GestureHandlerRootView style={styles.container}>
 			<View style={styles.container}>
-				<View style={styles.imageContainer}>
+				<View ref={imageRef} collapsable={false} style={styles.imageContainer}>
 					<ImageViewer
 						placeholderImageSource={PlaceholderImage}
 						selectedImage={selectedImage}
