@@ -20,6 +20,7 @@ const PlaceholderImage = require('@assets/images/background-image.png');
 // Agora vai
 // Agora vai 2
 // Agora vai 3
+// Agora vai 4
 
 export default function App() {
 	const [status, requestPermission] = MediaLibrary.usePermissions();
