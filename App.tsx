@@ -17,6 +17,7 @@ import * as MediaLibrary from 'expo-media-library';
 const PlaceholderImage = require('@assets/images/background-image.png');
 
 // Só pelo badge
+// Agora vai
 
 export default function App() {
 	const [status, requestPermission] = MediaLibrary.usePermissions();
