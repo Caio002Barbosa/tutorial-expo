@@ -18,6 +18,7 @@ const PlaceholderImage = require('@assets/images/background-image.png');
 
 // Só pelo badge
 // Agora vai
+// Agora vai 2
 
 export default function App() {
 	const [status, requestPermission] = MediaLibrary.usePermissions();
